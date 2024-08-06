@@ -14,10 +14,10 @@ pipeline {
                 sshagent(['server-credentials']) {
                     sh '''
                     # Add the remote server's SSH key to the known_hosts file
-                    ssh-keyscan -H 54.197.181.85 >> ~/.ssh/known_hosts
+                    ssh-keyscan -H 54.209.214.180 >> ~/.ssh/known_hosts
                     
                     # Sync the source code to the remote server using rsync
-                    rsync -avzh --delete $WORKSPACE/ ubuntu@54.197.181.85:/home/ubuntu
+                    rsync -avzh --delete $WORKSPACE/ ubuntu@54.209.214.180:/home/ubuntu
                     '''
                 }
             }
