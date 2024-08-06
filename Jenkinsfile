@@ -9,16 +9,18 @@ pipeline {
             }
         }
 
-        // stage('Deploy') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'my-server-credentials', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
-        //             // Sync the source code to the remote server using rsync
-        //             sh '''
-        //             rsync -avzh --delete $WORKSPACE/ $SSH_USER@yourserver:/path/to/deploy
-        //             '''
-        //         }
-        //     }
-        // }
+    stages {
+        stage('Deploy') {
+            steps {
+                // Use ssh-agent to provide the SSH key for the rsync command
+                sshagent(['server-credentials']) {
+                    sh '''
+                    rsync -avzh --delete $WORKSPACE/ ubuntu@54.197.181.85:/home/ubuntu
+                    '''
+                }
+            }
+        }
+    }
 
         // stage('Start Application') {
         //     steps {
