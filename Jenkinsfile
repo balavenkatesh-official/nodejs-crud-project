@@ -8,8 +8,6 @@ pipeline {
                 sh 'ls -ll'
             }
         }
-
-    stages {
         stage('Deploy') {
             steps {
                 // Use ssh-agent to provide the SSH key for the rsync command
@@ -35,7 +33,7 @@ pipeline {
         //         }
         //     }
         // }
-    }
+    //}
 
     post {
         success {
