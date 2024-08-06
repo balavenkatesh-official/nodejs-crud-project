@@ -17,7 +17,7 @@ pipeline {
                     ssh-keyscan -H 54.209.214.180 >> ~/.ssh/known_hosts
                     
                     # Sync the source code to the remote server using rsync
-                    rsync -avzh --delete $WORKSPACE/ ubuntu@54.209.214.180:/home/ubuntu
+                    rsync -e "ssh -o StrictHostKeyChecking=no" -avzh --delete $WORKSPACE/ ubuntu@54.209.214.180:/home/ubuntu
                     '''
                 }
             }
