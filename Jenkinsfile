@@ -17,7 +17,7 @@ pipeline {
                     # ssh-keyscan -H 3.82.51.115 >> ~/.ssh/known_hosts
                     
                     # Sync the source code to the remote server using rsync
-                    rsync -e "ssh -o StrictHostKeyChecking=no" -avzh  $WORKSPACE/ ec2-user@54.173.197.90:/home/ec2-user/test
+                    rsync -e "ssh -o StrictHostKeyChecking=no" -avzh  $WORKSPACE/ ec2-user@54.173.197.90:/home/ec2-user/
                     '''
                 }
             }
