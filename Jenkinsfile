@@ -10,41 +10,31 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                // Use ssh-agent to provide the SSH key for the rsync command
+                // Use ssh-agent to provide the SSH key for the rsync and ssh commands
                 sshagent(['server-credentials']) {
-                    sh '''
-                    # Add the remote server's SSH key to the known_hosts file
-                    # ssh-keyscan -H 3.82.51.115 >> ~/.ssh/known_hosts
-                    
-                    # Sync the source code to the remote server using rsync
-                    rsync -e "ssh -o StrictHostKeyChecking=no" -avzh  $WORKSPACE/ ubuntu@3.82.51.115:/home/ubuntu/
-                    '''
+                    withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
+                        sh '''
+                        # Add the remote server's SSH key to the known_hosts file
+                        # ssh-keyscan -H 3.82.51.115 >> ~/.ssh/known_hosts
+
+                        # Sync the source code to the remote server using rsync
+                        rsync -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" -avzh $WORKSPACE/ $SSH_USER@34.195.110.21:/home/ubuntu/
+
+                        # Restart the application using pm2
+                        ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 'sudo pm2 restart 0'
+                        '''
+                    }
                 }
             }
         }
     }
 
-        // stage('Start Application') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'my-server-credentials', usernameVariable: 'SSH_USER', passwordVariable: 'SSH_PASS')]) {
-        //             // Navigate to the deployment directory and start the application using pm2
-        //             sh '''
-        //             ssh $SSH_USER@yourserver << 'EOF'
-        //             cd /path/to/deploy
-        //             pm2 start server.js --name "my-app" --watch
-        //             EOF
-        //             '''
-        //         }
-        //     }
-        // }
-    //}
-
     post {
         success {
-            echo 'Deployment and application start successful!'
+            echo 'Deployment and application restart successful!'
         }
         failure {
-            echo 'Deployment or application start failed.'
+            echo 'Deployment or application restart failed.'
         }
     }
 }
