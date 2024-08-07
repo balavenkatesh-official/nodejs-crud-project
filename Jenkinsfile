@@ -22,7 +22,8 @@ pipeline {
 
                         # Restart the application and check pm2 status
                         ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 << 'EOF'
-                        pm2 start 0
+                        cd /home/ubuntu/backend
+                        pm2 start app.js --name backend-demo
                         pm2 list
                         pm2 log 0
                         EOF
