@@ -19,7 +19,7 @@ The pipeline consists of three main stages:  # Source Code Moving, # Deploy
 ### Use this vhost to see the site 
          
           <VirtualHost *:80>
-          ServerName {{ipaddress}}
+          ServerName ipaddress
           DocumentRoot /var/www/html/
           <Directory /var/www/html>
                Options Indexes FollowSymLinks
