@@ -7,11 +7,11 @@ we can integrate with jenkins pipeline job
 The pipeline consists of three main stages:  # Source Code Moving, # Deploy
 
 ### Prepare Workspace
-  1. list the source code
+   1. list the source code
 
 ### Source Code Moving
-  1. move source code to server using rsync
+   1. move source code to server using rsync
 
 ### Deploy
-  1.  Run " pm2 start app.js --name crud-demo "
-   2.  The site is running on the 3000 portno url is 
+   1.  Run " pm2 start app.js --name crud-demo "
+   2.  The backend is running on the "3000" port-no 
