@@ -20,8 +20,12 @@ pipeline {
                         # Sync the source code to the remote server using rsync
                         rsync -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" -avzh $WORKSPACE/ $SSH_USER@34.195.110.21:/home/ubuntu/
 
-                        # Restart the application using pm2
-                        ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 'sudo pm2 restart 0'
+                        # Restart the application and check pm2 status
+                        ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 << 'EOF'
+                        pm2 restart 0
+                        pm2 list
+                        pm2 log 0
+                        EOF
                         '''
                     }
                 }
