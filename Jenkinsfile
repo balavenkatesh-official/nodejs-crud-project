@@ -22,7 +22,7 @@ pipeline {
 
                         # Restart the application and check pm2 status
                         ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 << 'EOF'
-                        pm2 restart 0
+                        pm2 start 0
                         pm2 list
                         pm2 log 0
                         EOF
