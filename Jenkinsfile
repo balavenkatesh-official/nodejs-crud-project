@@ -30,11 +30,11 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                         sh '''
                         # Restart the application and check pm2 status
-                        ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 <<EOF
-                        cd /home/ubuntu/backend
-                        pm2 start app.js --name backend-demo
-                        pm2 list
-                        EOF
+                        ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 << 'EOF'
+cd /home/ubuntu/backend
+pm2 start app.js --name backend-demo
+pm2 list
+EOF
                         '''
                     }
                 }
