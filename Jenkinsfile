@@ -66,6 +66,7 @@ pipeline {
                         ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@54.87.28.247 << 'EOF'
 ls -ll /var/www/html
 sudo echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+docker pull ${DOCKER_IMAGE_NAME}:latest
 ls -ll
 EOF
                         '''
