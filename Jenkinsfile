@@ -68,6 +68,7 @@ pipeline {
                             # sudo docker rm backend || true
 
                             # Pull the latest Docker image
+                            echo "Pulling Docker Image: $DOCKER_IMAGE_NAME"
                             sudo docker pull $DOCKER_IMAGE_NAME:latest
 
                             # Run the Docker container on port 3000
