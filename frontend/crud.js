@@ -1,4 +1,4 @@
-const apiUrl = '/users';  // Use a relative URL
+const apiUrl = 'http://54.90.90.90:3000/users';
 
 async function fetchUsers() {
     try {
@@ -12,8 +12,8 @@ async function fetchUsers() {
 
             row.innerHTML = `
                 <td>${user.id}</td>
-                <td><input type="text" value="${user.name}" id="name-${user.id}"></td>
-                <td><input type="email" value="${user.email}" id="email-${user.id}"></td>
+                <td><input type="text" value="${user.name}" id="name-${user.id}" class="form-control"></td>
+                <td><input type="email" value="${user.email}" id="email-${user.id}" class="form-control"></td>
                 <td>
                     <button class="btn btn-success" onclick="updateUser(${user.id})">Update</button>
                     <button class="btn btn-danger" onclick="deleteUser(${user.id})">Delete</button>
@@ -28,10 +28,10 @@ async function fetchUsers() {
 }
 
 async function createUser() {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-
     try {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+
         await axios.post(apiUrl, { name, email });
         fetchUsers();
     } catch (error) {
@@ -40,14 +40,14 @@ async function createUser() {
 }
 
 async function updateUser(id) {
-    const name = document.getElementById(`name-${id}`).value;
-    const email = document.getElementById(`email-${id}`).value;
-
     try {
+        const name = document.getElementById(`name-${id}`).value;
+        const email = document.getElementById(`email-${id}`).value;
+
         await axios.put(`${apiUrl}/${id}`, { name, email });
         fetchUsers();
     } catch (error) {
-        console.error('Error updating user:', error);
+        console.error(`Error updating user ${id}:`, error);
     }
 }
 
@@ -56,7 +56,7 @@ async function deleteUser(id) {
         await axios.delete(`${apiUrl}/${id}`);
         fetchUsers();
     } catch (error) {
-        console.error('Error deleting user:', error);
+        console.error(`Error deleting user ${id}:`, error);
     }
 }
 
