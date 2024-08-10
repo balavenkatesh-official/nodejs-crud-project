@@ -62,7 +62,7 @@ pipeline {
                     sshagent(['server-credentials']) {
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                             sh """
-                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@54.87.28.247 << 'EOF'
+                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@54.87.28.247 <<EOF
                             echo "Debug: Pulling Docker Image: ${DOCKER_IMAGE_NAME}"
                             echo "Debug: Docker Username: ${DOCKERHUB_CREDENTIALS_USR}"
 
