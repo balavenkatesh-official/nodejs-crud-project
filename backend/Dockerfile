@@ -11,6 +11,7 @@ COPY package*.json ./
 RUN npm install
 RUN npm install cors
 RUN npm install dotenv
+RUN npm install -g pm2
 
 # Copy the rest of the application code
 COPY . .
@@ -25,5 +26,5 @@ COPY . .
 EXPOSE 3000
 
 # Command to run the application
-CMD ["npm", "start"]
+CMD ["pm2-runtime", "app.js"]
 
