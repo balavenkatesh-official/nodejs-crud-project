@@ -12,7 +12,7 @@ pipeline {
                 sh 'ls -ll'
                 echo "Docker Hub Username: ${DOCKERHUB_CREDENTIALS_USR}"
                 echo "Docker Image Name: ${DOCKER_IMAGE_NAME}"
-                
+
                 sh '''
                 echo "Docker Hub Username from shell: $DOCKERHUB_CREDENTIALS_USR"
                 echo "Docker Image Name from shell: $DOCKER_IMAGE_NAME"
@@ -22,11 +22,9 @@ pipeline {
 
         stage('front-end-source code uploading') {
             steps {
-                // Use ssh-agent to provide the SSH key for the rsync and ssh commands
                 sshagent(['server-credentials']) {
                     withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                         sh '''
-                        # Sync the source code to the remote server using rsync
                         rsync -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" -avzh $WORKSPACE/frontend $SSH_USER@100.27.231.86:/var/www/html
                         '''
                     }
@@ -38,7 +36,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    # Build the Docker image
                     cd backend
                     sudo docker build -t $DOCKER_IMAGE_NAME:$BUILD_NUMBER .
                     '''
@@ -50,13 +47,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    # Login to Docker Hub
                     sudo echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                    
-                    # Tag the Docker image
                     sudo docker tag $DOCKER_IMAGE_NAME:$BUILD_NUMBER $DOCKER_IMAGE_NAME:latest
-                    
-                    # Push the Docker image to Docker Hub
                     sudo docker push $DOCKER_IMAGE_NAME:$BUILD_NUMBER
                     sudo docker push $DOCKER_IMAGE_NAME:latest
                     '''
@@ -64,15 +56,37 @@ pipeline {
             }
         }
 
-        // Additional stages for source code moving and deploy
+        stage('Deploy Docker Image') {
+            steps {
+                script {
+                    sshagent(['server-credentials']) {
+                        withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
+                            sh '''
+                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@100.27.231.86 << 'EOF'
+                            # Stop any existing container running on port 3000
+                            sudo docker stop frontend || true
+                            sudo docker rm frontend || true
+
+                            # Pull the latest Docker image
+                            sudo docker pull $DOCKER_IMAGE_NAME:latest
+
+                            # Run the Docker container on port 3000
+                            sudo docker run -d --name frontend -p 3000:3000 $DOCKER_IMAGE_NAME:latest
+                            EOF
+                            '''
+                        }
+                    }
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo 'Docker image pushed successfully!'
+            echo 'Docker image pushed and deployed successfully!'
         }
         failure {
-            echo 'Docker image push failed.'
+            echo 'Docker image push or deployment failed.'
         }
     }
 }
