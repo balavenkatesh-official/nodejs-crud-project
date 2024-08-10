@@ -70,10 +70,10 @@ pipeline {
                             sudo echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
 
                             # Attempt to pull the Docker image
-                            sudo docker pull ${DOCKER_IMAGE_NAME}:latest
+                            docker pull ${DOCKER_IMAGE_NAME}:latest
 
                             # Run the Docker container on port 3000
-                            sudo docker run -d --name backend -p 3000:3000 ${DOCKER_IMAGE_NAME}:latest
+                            docker run -d --name backend -p 3000:3000 ${DOCKER_IMAGE_NAME}:latest
                             EOF
                             """
                         }
