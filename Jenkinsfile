@@ -7,18 +7,18 @@ pipeline {
     }
 
     stages {
-    //     stage('Prepare Workspace') {
-    //         steps {
-    //             sh 'ls -ll'
-    //             echo "Docker Hub Username: ${DOCKERHUB_CREDENTIALS_USR}"
-    //             echo "Docker Image Name: ${DOCKER_IMAGE_NAME}"
+        stage('Prepare Workspace') {
+            steps {
+                sh 'ls -ll'
+                echo "Docker Hub Username: ${DOCKERHUB_CREDENTIALS_USR}"
+                echo "Docker Image Name: ${DOCKER_IMAGE_NAME}"
 
-    //             sh '''
-    //             echo "Docker Hub Username from shell: $DOCKERHUB_CREDENTIALS_USR"
-    //             echo "Docker Image Name from shell: $DOCKER_IMAGE_NAME"
-    //             '''
-    //         }
-    //     }
+                sh '''
+                echo "Docker Hub Username from shell: $DOCKERHUB_CREDENTIALS_USR"
+                echo "Docker Image Name from shell: $DOCKER_IMAGE_NAME"
+                '''
+            }
+        }
 
     //     stage('front-end-source code uploading') {
     //         steps {
