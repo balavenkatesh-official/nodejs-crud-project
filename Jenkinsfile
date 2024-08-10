@@ -62,20 +62,12 @@ pipeline {
                     sshagent(['server-credentials']) {
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                             sh '''
-                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@54.87.28.247 << 'EOF'
-                            echo "Debug: Pulling Docker Image: ${DOCKER_IMAGE_NAME}"
-                            echo "Debug: Docker Username: ${DOCKERHUB_CREDENTIALS_USR}"
-
-                            # Ensure Docker is logged in before pulling the image
-                            #sudo echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                            sudo docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin <<< "${DOCKERHUB_CREDENTIALS_PSW}"    
-                            # Attempt to pull the Docker image
-                            docker pull ${DOCKER_IMAGE_NAME}:latest
-
-                            # Run the Docker container on port 3000
-                            docker run -d --name backend -p 3000:3000 ${DOCKER_IMAGE_NAME}:latest
-                            EOF
-                            '''.stripIndent()
+                        # Restart the application and check pm2 status
+                        ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 << 'EOF'
+cd /var/www/html
+ls -ll
+EOF
+                        '''
                         }
                     }
                 }
