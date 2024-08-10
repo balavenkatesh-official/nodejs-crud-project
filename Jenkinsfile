@@ -40,7 +40,7 @@ pipeline {
                     sh '''
                     # Build the Docker image
                     cd backend
-                    docker build -t $DOCKER_IMAGE_NAME:$BUILD_NUMBER .
+                    sudo docker build -t $DOCKER_IMAGE_NAME:$BUILD_NUMBER .
                     '''
                 }
             }
@@ -51,14 +51,14 @@ pipeline {
                 script {
                     sh '''
                     # Login to Docker Hub
-                    echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                    sudo echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
                     
                     # Tag the Docker image
-                    docker tag $DOCKER_IMAGE_NAME:$BUILD_NUMBER $DOCKER_IMAGE_NAME:latest
+                    sudo docker tag $DOCKER_IMAGE_NAME:$BUILD_NUMBER $DOCKER_IMAGE_NAME:latest
                     
                     # Push the Docker image to Docker Hub
-                    docker push $DOCKER_IMAGE_NAME:$BUILD_NUMBER
-                    docker push $DOCKER_IMAGE_NAME:latest
+                    sudo docker push $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+                    sudo docker push $DOCKER_IMAGE_NAME:latest
                     '''
                 }
             }
