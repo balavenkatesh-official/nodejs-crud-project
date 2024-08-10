@@ -63,7 +63,7 @@ pipeline {
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                             sh '''
                         # Restart the application and check pm2 status
-                        ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@34.195.110.21 << 'EOF'
+                        ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@54.87.28.247 << 'EOF'
 cd /var/www/html
 ls -ll
 EOF
