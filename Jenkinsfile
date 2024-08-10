@@ -68,6 +68,7 @@ pipeline {
                             # sudo docker rm backend || true
 
                             # Pull the latest Docker image
+                            export DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME
                             echo "Pulling Docker Image: $DOCKER_IMAGE_NAME"
                             sudo docker pull $DOCKER_IMAGE_NAME:latest
 
