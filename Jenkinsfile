@@ -62,7 +62,7 @@ pipeline {
                     sshagent(['server-credentials']) {
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                             sh """
-                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@100.27.231.86 << 'EOF'
+                            ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@54.87.28.247 << 'EOF'
                             # Stop any existing container running on port 3000
                             # sudo docker stop backend || true
                             # sudo docker rm backend || true
