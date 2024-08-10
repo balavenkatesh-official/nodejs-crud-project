@@ -27,7 +27,7 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                         sh '''
                         # Sync the source code to the remote server using rsync
-                        rsync -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" -avzh $WORKSPACE/frontend $SSH_USER@34.195.110.21:/home/ubuntu/
+                        rsync -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" -avzh $WORKSPACE/frontend $SSH_USER@100.27.231.86:/home/ubuntu/
                         '''
                     }
                 }
