@@ -69,6 +69,7 @@ pipeline {
 
                             # Pull the latest Docker image
                             echo "Pulling Docker Image: ${DOCKER_IMAGE_NAME}"
+                            sudo echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
                             sudo docker pull $DOCKER_IMAGE_NAME:latest
 
                             # Run the Docker container on port 3000
