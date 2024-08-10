@@ -6,7 +6,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'balavenkateshhub/backend'
     }
 
-    // stages {
+    stages {
     //     stage('Prepare Workspace') {
     //         steps {
     //             sh 'ls -ll'
@@ -89,4 +89,4 @@ pipeline {
             echo 'Docker image push or deployment failed.'
         }
     }
-
+}
