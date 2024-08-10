@@ -64,7 +64,8 @@ pipeline {
                             sh '''
                         # Restart the application and check pm2 status
                         ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@54.87.28.247 << 'EOF'
-cd /var/www/html
+ls -ll /var/www/html
+sudo docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin <<< "${DOCKERHUB_CREDENTIALS_PSW}"
 ls -ll
 EOF
                         '''
