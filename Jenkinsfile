@@ -61,7 +61,7 @@ pipeline {
                 script {
                     sshagent(['server-credentials']) {
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
-                            sh '''
+                            sh """
                             ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@100.27.231.86 << 'EOF'
                             # Stop any existing container running on port 3000
                             # sudo docker stop backend || true
@@ -74,7 +74,7 @@ pipeline {
                             # Run the Docker container on port 3000
                             sudo docker run -d --name backend -p 3000:3000 $DOCKER_IMAGE_NAME:latest
                             EOF
-                            '''
+                            """
                         }
                     }
                 }
