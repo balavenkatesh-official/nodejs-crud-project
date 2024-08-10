@@ -63,17 +63,17 @@ pipeline {
                         withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                             sh """
                             ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@54.87.28.247 << 'EOF'
-                            # Stop any existing container running on port 3000
-                            # sudo docker stop backend || true
-                            # sudo docker rm backend || true
+                            echo "Debug: Pulling Docker Image: ${DOCKER_IMAGE_NAME}"
+                            echo "Debug: Docker Username: ${DOCKERHUB_CREDENTIALS_USR}"
 
-                            # Pull the latest Docker image
-                            echo "Pulling Docker Image: ${DOCKER_IMAGE_NAME}"
+                            # Ensure Docker is logged in before pulling the image
                             sudo echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                            sudo docker pull $DOCKER_IMAGE_NAME:latest
+
+                            # Attempt to pull the Docker image
+                            sudo docker pull ${DOCKER_IMAGE_NAME}:latest
 
                             # Run the Docker container on port 3000
-                            sudo docker run -d --name backend -p 3000:3000 $DOCKER_IMAGE_NAME:latest
+                            sudo docker run -d --name backend -p 3000:3000 ${DOCKER_IMAGE_NAME}:latest
                             EOF
                             """
                         }
