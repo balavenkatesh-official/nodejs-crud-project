@@ -13,35 +13,35 @@ pipeline {
                 echo "Docker Hub Username: ${DOCKERHUB_CREDENTIALS_USR}"
                 echo "Docker Image Name: ${DOCKER_IMAGE_NAME}"
 
-                sh '''
-                echo "Docker Hub Username from shell: $DOCKERHUB_CREDENTIALS_USR"
-                echo "Docker Image Name from shell: $DOCKER_IMAGE_NAME"
-                '''
+   //             sh '''
+   //             echo "Docker Hub Username from shell: $DOCKERHUB_CREDENTIALS_USR"
+   //             echo "Docker Image Name from shell: $DOCKER_IMAGE_NAME"
+   //             '''
             }
         }
 
-    //     stage('front-end-source code uploading') {
-    //         steps {
-    //             sshagent(['server-credentials']) {
-    //                 withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
-    //                     sh '''
-    //                     rsync -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" -avzh $WORKSPACE/frontend $SSH_USER@100.27.231.86:/var/www/html
-    //                     '''
-    //                 }
-    //             }
-    //         }
-    //     }
+         stage('front-end-source code uploading') {
+             steps {
+                 sshagent(['server-credentials']) {
+                     withCredentials([sshUserPrivateKey(credentialsId: 'server-credentials', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
+                         sh '''
+                         rsync -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" -avzh $WORKSPACE/frontend $SSH_USER@54.87.28.247:/var/www/html
+                         '''
+                     }
+                 }
+             }
+         }
 
-    //     stage('Build Backend Docker Image') {
-    //         steps {
-    //             script {
-    //                 sh '''
-    //                 cd backend
-    //                 sudo docker build -t $DOCKER_IMAGE_NAME:$BUILD_NUMBER .
-    //                 '''
-    //             }
-    //         }
-    //     }
+         stage('Build Backend Docker Image') {
+             steps {
+                 script {
+                     sh '''
+                     cd backend
+                     sudo docker build -t $DOCKER_IMAGE_NAME:$BUILD_NUMBER .
+                     '''
+                 }
+             }
+         }
 
     //     stage('Push Docker Image to Docker Hub') {
     //         steps {
