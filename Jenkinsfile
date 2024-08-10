@@ -64,8 +64,8 @@ pipeline {
                             sh '''
                             ssh -i $SSH_KEY -o StrictHostKeyChecking=no $SSH_USER@100.27.231.86 << 'EOF'
                             # Stop any existing container running on port 3000
-                            sudo docker stop backend || true
-                            sudo docker rm backend || true
+                            # sudo docker stop backend || true
+                            # sudo docker rm backend || true
 
                             # Pull the latest Docker image
                             sudo docker pull $DOCKER_IMAGE_NAME:latest
